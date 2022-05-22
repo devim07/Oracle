@@ -1,0 +1,65 @@
+1) Write a command that puts the following values, in their given order, into the salespeople table:
+ city – San Jose, name – Blanco, comm – NULL, cnum – 1100.
+ 
+INSERT INTO SALESPEOPLE (CITY, SNAME, COMM, SNUM) VALUES
+('SAN JOSE', 'BLANCO', NULL, 1100);
+----->
+SELECT * FROM SALESPEOPLE;
+
+      SNUM SNAME      CITY             COMM
+---------- ---------- ---------- ----------
+      1001 PEEL       LONDON            .12
+      1002 SERRES     SAN JOSE          .13
+      1004 MOTIKA     LONDON            .11
+      1007 RIFKIN     BARCELONA         .15
+      1003 AXERLROD   NEW YORK           .1
+      1100 BLANCO     SAN JOSE
+	  
+=======================================================================================================================
+2) Write a command that removes all orders from customer Clemens from the Orders table.
+
+DELETE FROM ORDERS
+WHERE CNUM=
+(SELECT CNUM FROM CUSTOMERS 
+WHERE CNAME='Clemens');
+----->
+0 rows deleted.
+
+=======================================================================================================================
+3) Write a command that increases the rating of all customers in Rome by 100.
+
+UPDATE CUSTOMERS SET RATING=RATING+100
+WHERE CITY='ROME';
+----->
+SELECT * FROM CUSTOMERS;
+      CNUM CNAME      CITY           RATING       SNUM
+---------- ---------- ---------- ---------- ----------
+      2001 HOFFMAN    LONDON            100       1001
+      2002 GIOVANNI   ROME              300       1003
+      2003 LIU        SAN JOSE          200       1002
+      2004 GRASS      BERLIN            300       1002
+      2006 CLEMENS    LONDON            100       1001
+      2008 CISNEROS   SAN JOSE          300       1007
+      2007 PEREIRA    ROME              200       1004
+	  
+=======================================================================================================================
+4) Salesperson Serres has left the company. Assign her customers to Motika.
+
+UPDATE CUSTOMERS SET SNUM=
+(SELECT SNUM FROM SALESPEOPLE 
+WHERE SNAME='MOTIKA')
+WHERE SNUM=
+(SELECT SNUM FROM SALESPEOPLE 
+WHERE SNAME='SERRES');
+
+SELECT * FROM CUSTOMERS;
+----->
+      CNUM CNAME      CITY           RATING       SNUM
+---------- ---------- ---------- ---------- ----------
+      2001 HOFFMAN    LONDON            100       1001
+      2002 GIOVANNI   ROME              300       1003
+      2003 LIU        SAN JOSE          200       1004
+      2004 GRASS      BERLIN            300       1004
+      2006 CLEMENS    LONDON            100       1001
+      2008 CISNEROS   SAN JOSE          300       1007
+      2007 PEREIRA    ROME              200       1004

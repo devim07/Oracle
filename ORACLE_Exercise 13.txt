@@ -1,0 +1,73 @@
+1) Create a union of two queries that shows the names, cities, and ratings of all customers.
+Those with rating of 200 or greater will also have the words “High Rating”, 
+while the others will have the words “Low Rating”.
+
+SELECT CNAME, CITY, RATING, CASE 
+WHEN RATING>=200 THEN 'HIGH RATING'
+END AS "REMARK"
+FROM CUSTOMERS
+WHERE RATING>=200
+UNION
+SELECT CNAME, CITY, RATING, CASE 
+WHEN RATING<200 THEN 'LOW RATING'
+END AS "REMARK"
+FROM CUSTOMERS
+WHERE RATING<200;
+----->
+CNAME      CITY           RATING REMARK
+---------- ---------- ---------- -----------
+CISNEROS   SAN JOSE          300 HIGH RATING
+CLEMENS    LONDON            100 LOW RATING
+GIOVANNI   ROME              200 HIGH RATING
+GRASS      BERLIN            300 HIGH RATING
+HOFFMAN    LONDON            100 LOW RATING
+LIU        SAN JOSE          200 HIGH RATING
+PEREIRA    ROME              100 LOW RATING
+
+===================================================================================================================
+2) Write a command that produces the name and number of each salesperson and 
+each customer with more than one current order. 
+Put the results in alphabetical order.
+
+SELECT DISTINCT CNAME, ORDERS.CNUM, SNAME, ORDERS.SNUM FROM ORDERS,CUSTOMERS, SALESPEOPLE 
+WHERE ORDERS.SNUM=SALESPEOPLE.SNUM 
+AND ORDERS.CNUM=CUSTOMERS.CNUM
+AND ORDERS.CNUM IN
+(SELECT CNUM FROM ORDERS
+GROUP BY CNUM
+HAVING COUNT(CNUM)>1);
+----->
+CNAME            CNUM SNAME            SNUM
+---------- ---------- ---------- ----------
+GRASS            2004 SERRES           1002
+CISNEROS         2008 RIFKIN           1007
+CLEMENS          2006 PEEL             1001
+
+===================================================================================================================
+3) Form a union of three queries. Have the first select the snums of all salespeople in San Jose;
+the second, the cnums of all customers in San Jose;
+and the third the onums of all orders on October 3.
+Retain duplicates between the last two queries but eliminate any redundancies between
+either of them and the first.
+(Note: in the sample tables as given, there would be no such redundancy. This is besides the point.)
+
+SELECT SNUM FROM SALESPEOPLE
+WHERE CITY='SAN JOSE'
+UNION 
+(SELECT CNUM FROM CUSTOMERS 
+WHERE CITY='SAN JOSE'
+UNION ALL
+SELECT ONUM FROM ORDERS 
+WHERE ODATE='10/03/1990');
+----->
+      SNUM
+----------
+      1002
+      2003
+      2008
+      3001
+      3002
+      3003
+      3005
+      3006
+	  

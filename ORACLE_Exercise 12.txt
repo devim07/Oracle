@@ -1,0 +1,79 @@
+1) Write a query that selects all customers whose ratings are equal to or greater than ANY of Serres’.
+
+SELECT CNAME FROM CUSTOMERS
+WHERE RATING>= ANY
+(SELECT RATING FROM CUSTOMERS, SALESPEOPLE
+WHERE CUSTOMERS.SNUM=SALESPEOPLE.SNUM
+AND SNAME='SERRES')
+ORDER BY CNAME;
+----->
+CNAME
+----------
+CISNEROS
+GIOVANNI
+GRASS
+LIU
+
+========================================================================================================================
+2) Write a query using ANY or ALL that will find all salespeople who have no customers located in their city.
+
+SELECT SNUM, SNAME FROM SALESPEOPLE
+WHERE SNUM != ALL
+(SELECT DISTINCT SALESPEOPLE.SNUM FROM CUSTOMERS, SALESPEOPLE
+WHERE CUSTOMERS.SNUM=SALESPEOPLE.SNUM
+AND CUSTOMERS.CITY=SALESPEOPLE.CITY);
+----->
+      SNUM SNAME
+---------- ----------
+      1007 RIFKIN
+      1003 AXERLROD
+      1004 MOTIKA
+	  
+========================================================================================================================
+3) Write a query that selects all orders for amounts greater than any for the customers in London.
+
+SELECT * FROM ORDERS
+WHERE AMT>ANY
+(SELECT AMT FROM ORDERS, CUSTOMERS
+WHERE CUSTOMERS.CNUM=ORDERS.CNUM
+AND CITY='LONDON')
+ORDER BY ONUM;
+----->
+      ONUM        AMT ODATE           CNUM       SNUM
+---------- ---------- --------- ---------- ----------
+      3002     1900.1 03-OCT-90       2007       1004
+      3005    5160.45 03-OCT-90       2003       1002
+      3006    1098.16 03-OCT-90       2008       1007
+      3008       4723 05-OCT-90       2006       1001
+      3009    1713.23 04-OCT-90       2002       1003
+      3010    1309.95 06-OCT-90       2004       1002
+      3011    9891.88 06-OCT-90       2006       1001
+	  
+===========================================================================================================================
+4) Write the above query using MIN or MAX.
+
+SELECT * FROM ORDERS
+WHERE AMT> 
+(SELECT MIN(AMT) FROM ORDERS, CUSTOMERS
+WHERE CUSTOMERS.CNUM=ORDERS.CNUM
+AND CITY='LONDON')
+ORDER BY ONUM;
+----->
+      ONUM        AMT ODATE           CNUM       SNUM
+---------- ---------- --------- ---------- ----------
+      3002     1900.1 03-OCT-90       2007       1004
+      3005    5160.45 03-OCT-90       2003       1002
+      3006    1098.16 03-OCT-90       2008       1007
+      3008       4723 05-OCT-90       2006       1001
+      3009    1713.23 04-OCT-90       2002       1003
+      3010    1309.95 06-OCT-90       2004       1002
+      3011    9891.88 06-OCT-90       2006       1001
+	  
+SELECT * FROM ORDERS
+WHERE AMT> 
+(SELECT MAX(AMT) FROM ORDERS, CUSTOMERS
+WHERE CUSTOMERS.CNUM=ORDERS.CNUM
+AND CITY='LONDON')
+ORDER BY ONUM;
+----->
+no rows selected

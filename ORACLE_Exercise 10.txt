@@ -1,0 +1,24 @@
+1) Write a query that produces all pairs of salespeople who are living in the same city. 
+Exclude combinations of salespeople with themselves as well as duplicate rows with the order reversed.
+
+SELECT A.SNAME, B.CITY FROM SALESPEOPLE A, SALESPEOPLE B 
+WHERE A.SNAME!=B.SNAME AND A.CITY=B.CITY;
+----->
+SNAME      CITY
+---------- ----------
+MOTIKA     LONDON
+PEEL       LONDON
+
+==========================================================================================================================
+2) Write a query that produces the names and cities of all customers with the same rating as Hoffman.
+
+SELECT CNAME, CITY, RATING FROM CUSTOMERS
+WHERE RATING=
+(SELECT RATING FROM CUSTOMERS
+WHERE CNAME='HOFFMAN');
+----->
+CNAME      CITY           RATING
+---------- ---------- ----------
+HOFFMAN    LONDON            100
+CLEMENS    LONDON            100
+PEREIRA    ROME              100

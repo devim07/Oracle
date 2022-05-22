@@ -1,0 +1,52 @@
+Assume there is a table called Multicust, with all of the same column definitions as Salespeople. 
+Write a command that inserts all salespeople with more than one customer into this table.
+
+INSERT INTO MULTICUST
+SELECT * FROM SALESPEOPLE 
+WHERE SNUM IN
+(SELECT SALESPEOPLE.SNUM FROM CUSTOMERS,SALESPEOPLE 
+WHERE CUSTOMERS.SNUM=SALESPEOPLE.SNUM
+GROUP BY SALESPEOPLE.SNUM
+HAVING COUNT(SALESPEOPLE.SNUM)>1);
+
+SELECT * FROM MULTICUST;
+----->
+      SNUM SNAME      CITY             COMM
+---------- ---------- ---------- ----------
+      1001 PEEL       LONDON            .12
+      1002 SERRES     SAN JOSE          .13
+
+========================================================================================================================
+2) Write a command that deletes all customers with no current orders.
+
+DELETE FROM CUSTOMERS
+WHERE CNUM IN
+(SELECT ORDERS.CNUM FROM ORDERS, CUSTOMERS 
+WHERE CUSTOMERS.CNUM=ORDERS.CNUM
+GROUP BY ORDERS.CNUM
+HAVING COUNT(ORDERS.CNUM)=0);
+----->
+0 ROWS DELETED.
+
+========================================================================================================================
+3) Write a command that increases by twenty percent the commissions 
+of all salespeople with total orders above Rs. 3,000.
+
+UPDATE SALESPEOPLE SET COMM=1.2*COMM
+WHERE SNUM IN
+(SELECT SNUM FROM ORDERS 
+GROUP BY SNUM
+HAVING SUM(AMT)>3000);
+
+SELECT * FROM SALESPEOPLE;
+----->
+      SNUM SNAME      CITY             COMM
+---------- ---------- ---------- ----------
+      1001 PEEL       LONDON            .14
+      1002 SERRES     SAN JOSE          .16
+      1004 MOTIKA     LONDON            .11
+      1007 RIFKIN     BARCELONA         .15
+      1003 AXERLROD   NEW YORK           .1
+      1100 BLANCO     SAN JOSE
+	  
+

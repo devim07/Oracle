@@ -1,0 +1,68 @@
+1) Write a select command that produces the order number, amount, and date for all rows in the Orders table.
+
+SELECT ONUM, AMT, ODATE FROM ORDERS;
+
+      ONUM        AMT ODATE
+---------- ---------- ---------
+      3001      18.69 03-OCT-90
+      3003     767.19 03-OCT-90
+      3002     1900.1 03-OCT-90
+      3005    5160.45 03-OCT-90
+      3006    1098.16 03-OCT-90
+      3009    1713.23 04-OCT-90
+      3007      75.75 04-OCT-90
+      3008       4723 05-OCT-90
+      3010    1309.95 06-OCT-90
+      3011    9891.88 06-OCT-90
+
+10 rows selected.
+
+===========================================================================================================================
+2) Write a query that produces all rows from the Customers table for which the salesperson’s number is 1001.
+
+SELECT * FROM SALESPEOPLE
+  2  WHERE SNUM=1001;
+
+      SNUM SNAME      CITY             COMM
+---------- ---------- ---------- ----------
+      1001 PEEL       LONDON            .12
+
+==============================================================================================================================
+3) Write a query that displays the Salespeople table with the columns in the following order: city, sname, snum, comm.
+
+SELECT CITY, SNAME, SNUM,COMM FROM SALESPEOPLE;
+
+CITY       SNAME            SNUM       COMM
+---------- ---------- ---------- ----------
+LONDON     PEEL             1001        .12
+SAN JOSE   SERRES           1002        .13
+LONDON     MOTIKA           1004        .11
+BARCELONA  RIFKIN           1007        .15
+NEW YORK   AXERLROD         1003         .1
+
+================================================================================================================================
+4) Write a select command that produces the rating followed by the name of each customer in San Jose.
+
+SELECT RATING, CNAME FROM CUSTOMERS
+  2  WHERE CITY='SAN JOSE';                         //"" DOES NOT WORK IN ORACLE, USE '' ONLY
+
+    RATING CNAME
+---------- ----------
+       200 LIU
+       300 CISNEROS
+	   
+===============================================================================================================================
+5) Write a query that will produce the snum values of all salespeople (suppress the duplicates) with orders in the Orders table.
+
+SELECT DISTINCT SNUM FROM ORDERS
+  2  ORDER BY SNUM;
+
+      SNUM
+----------
+      1001
+      1002
+      1003
+      1004
+      1007
+
+=================================================================================================================================

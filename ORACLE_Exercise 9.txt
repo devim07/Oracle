@@ -1,0 +1,126 @@
+SELECT * FROM SALESPEOPLE;
+      SNUM SNAME      CITY             COMM
+     ----- ---------- ---------- ----------
+      1001 PEEL       LONDON            .12
+      1002 SERRES     SAN JOSE          .13
+      1004 MOTIKA     LONDON            .11
+      1007 RIFKIN     BARCELONA         .15
+      1003 AXERLROD   NEW YORK           .1
+	  
+SELECT * FROM CUSTOMERS;
+      CNUM CNAME      CITY           RATING       SNUM
+---------- ---------- ---------- ---------- ----------
+      2001 HOFFMAN    LONDON            100       1001
+      2002 GIOVANNI   ROME              200       1003
+      2003 LIU        SAN JOSE          200       1002
+      2004 GRASS      BERLIN            300       1002
+      2006 CLEMENS    LONDON            100       1001
+      2008 CISNEROS   SAN JOSE          300       1007
+      2007 PEREIRA    ROME              100       1004
+
+SELECT * FROM ORDERS;
+      ONUM        AMT ODATE           CNUM       SNUM
+---------- ---------- --------- ---------- ----------
+      3001      18.69 03-OCT-90       2008       1007
+      3003     767.19 03-OCT-90       2001       1001
+      3002     1900.1 03-OCT-90       2007       1004
+      3005    5160.45 03-OCT-90       2003       1002
+      3006    1098.16 03-OCT-90       2008       1007
+      3009    1713.23 04-OCT-90       2002       1003
+      3007      75.75 04-OCT-90       2004       1002
+      3008       4723 05-OCT-90       2006       1001
+      3010    1309.95 06-OCT-90       2004       1002
+      3011    9891.88 06-OCT-90       2006       1001
+	  
+=================================================================================================================
+1) Write a query that lists each order number followed by the name of the customer who made the order.
+
+SELECT ONUM AS "ORDER NO.", CNAME AS "CUSTOMER" FROM ORDERS, CUSTOMERS
+WHERE CUSTOMERS.CNUM=ORDERS.CNUM
+ORDER BY ONUM;
+----->
+ ORDER NO. CUSTOMER
+---------- ----------
+      3001 GRASS
+      3002 PEREIRA
+      3003 HOFFMAN
+      3005 LIU
+      3006 GRASS
+      3007 GRASS
+      3008 CISNEROS
+      3009 GIOVANNI
+      3010 GRASS
+      3011 CISNEROS
+	  
+===================================================================================================================
+2) Write a query that gives the names of both the salesperson and the customer for each order along with the order number.
+
+SELECT ONUM, SNAME, CNAME FROM ORDERS, CUSTOMERS, SALESPEOPLE
+WHERE ORDERS.CNUM=CUSTOMERS.CNUM 
+AND ORDERS.SNUM=SALESPEOPLE.SNUM
+ORDER BY ONUM;
+----->
+      ONUM SNAME      CNAME
+---------- ---------- ----------
+      3001 RIFKIN     GRASS
+      3002 MOTIKA     PEREIRA
+      3003 PEEL       HOFFMAN
+      3005 SERRES     LIU
+      3006 RIFKIN     GRASS
+      3007 SERRES     GRASS
+      3008 PEEL       CISNEROS
+      3009 AXERLROD   GIOVANNI
+      3010 SERRES     GRASS
+      3011 PEEL       CISNEROS
+	  
+======================================================================================================================
+3) Write a query that produces all customers serviced by salespeople with a commission above 12%. 
+Output the customer’s name, the salesperson’s name, and the salesperson’s rate of commission.
+
+SELECT ONUM, SNAME, CNAME FROM ORDERS, CUSTOMERS, SALESPEOPLE
+WHERE ORDERS.CNUM=CUSTOMERS.CNUM 
+AND ORDERS.SNUM=SALESPEOPLE.SNUM
+ORDER BY ONUM;
+----->
+      ONUM SNAME      CNAME
+---------- ---------- ----------
+      3001 RIFKIN     GRASS
+      3002 MOTIKA     PEREIRA
+      3003 PEEL       HOFFMAN
+      3005 SERRES     LIU
+      3006 RIFKIN     GRASS
+      3007 SERRES     GRASS
+      3008 PEEL       CISNEROS
+      3009 AXERLROD   GIOVANNI
+      3010 SERRES     GRASS
+      3011 PEEL       CISNEROS
+	  
+========================================================================================================================
+4) Write a query that calculates the amount of the salesperson’s commission 
+on each order by a customer with a rating above 100.
+
+SELECT SALESPEOPLE.SNUM,ONUM, SNAME, RATING CRATE,COMM*AMT AS COMMISSION FROM ORDERS, CUSTOMERS, SALESPEOPLE
+WHERE CUSTOMERS.SNUM=SALESPEOPLE.SNUM
+AND ORDERS.SNUM=SALESPEOPLE.SNUM
+AND CUSTOMERS.CNUM IN
+(SELECT CNUM FROM CUSTOMERS 
+WHERE RATING>100)
+ORDER BY SALESPEOPLE.SNUM;
+----->
+      SNUM       ONUM SNAME           CRATE COMMISSION
+---------- ---------- ---------- ---------- ----------
+      1002       3010 SERRES            200   170.2935
+      1002       3005 SERRES            200   670.8585
+      1002       3005 SERRES            300   670.8585
+      1002       3007 SERRES            300     9.8475
+      1002       3010 SERRES            300   170.2935
+      1002       3007 SERRES            200     9.8475
+      1003       3009 AXERLROD          200    171.323
+      1007       3001 RIFKIN            300     2.8035
+      1007       3006 RIFKIN            300    164.724
+	  
+=========================================================================================================================
+
+
+
+

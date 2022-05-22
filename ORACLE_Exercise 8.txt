@@ -1,0 +1,58 @@
+1) Assume each salesperson has a 12% commission. Write a query on the orders table 
+that will produce the order number, the salesperson number, and the amount of the salesperson’s commission for that order.
+
+SELECT ONUM, SNUM, AMT*0.12 AS "COMMISSION" FROM ORDERS;
+
+      ONUM       SNUM COMMISSION
+---------- ---------- ----------
+      3001       1007     2.2428
+      3003       1001    92.0628
+      3002       1004    228.012
+      3005       1002    619.254
+      3006       1007   131.7792
+      3009       1003   205.5876
+      3007       1002       9.09
+      3008       1001     566.76
+      3010       1002    157.194
+      3011       1001  1187.0256
+
+10 rows selected.
+
+============================================================================================================================
+2) Write a query on the Customers table that will find the highest rating in each city. Put the output in this form:
+For the city (city), the highest rating is : (rating).
+
+============================================================================================================================
+3) Write a query that lists customers in descending order of rating. 
+Output the rating field first, followed by the customer’s name and number.
+
+SELECT RATING, CNAME, CNUM FROM CUSTOMERS
+  2  ORDER BY RATING DESC, CNAME;
+
+    RATING CNAME            CNUM
+---------- ---------- ----------
+       300 CISNEROS         2006
+       300 GRASS            2004
+       200 GIOVANNI         2002
+       200 LIU              2003
+       100 CLEMENS          2005
+       100 HOFFMAN          2001
+       100 PEREIRA          2007
+
+7 rows selected.
+
+===============================================================================================================================
+4) Write a query that totals the orders for each day and places the results in descending order.
+
+SELECT ODATE, SUM(AMT) FROM ORDERS
+  2  GROUP BY ODATE
+  3  ORDER BY ODATE DESC;
+
+ODATE       SUM(AMT)
+--------- ----------
+06-OCT-90   11201.83
+05-OCT-90       4723
+04-OCT-90    1788.98
+03-OCT-90    8944.59
+
+==============================================================================================================================

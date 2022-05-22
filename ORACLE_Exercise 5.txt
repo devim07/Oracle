@@ -1,0 +1,104 @@
+1) Write a query that will give you all orders for more than Rs. 1,000.
+
+SELECT * FROM ORDERS
+  2  WHERE AMT>1000;
+
+      ONUM        AMT ODATE           CNUM       SNUM
+---------- ---------- --------- ---------- ----------
+      3002     1900.1 03-OCT-90       2007       1004
+      3005    5160.45 03-OCT-90       2003       1002
+      3006    1098.16 03-OCT-90       2008       1007
+      3009    1713.23 04-OCT-90       2002       1003
+      3008       4723 05-OCT-90       2006       1001
+      3010    1309.95 06-OCT-90       2004       1002
+      3011    9891.88 06-OCT-90       2006       1001
+
+7 rows selected.
+
+=====================================================================================================
+2) Write a query that will give you the names and cities of all salespeople 
+in London with a commission above .10.
+
+ SELECT SNAME, CITY FROM SALESPEOPLE
+  2  WHERE COMM>0.10;
+
+SNAME      CITY
+---------- ----------
+PEEL       LONDON
+SERRES     SAN JOSE
+MOTIKA     LONDON
+RIFKIN     BARCELONA
+
+======================================================================================================
+3) Write a query on the Customers table whose output will exclude all customers
+with a rating <= 100, unless they are located in Rome.
+
+SELECT * FROM CUSTOMERS
+  2  WHERE RATING>100 OR CITY='ROME';
+
+      CNUM CNAME      CITY           RATING       SNUM
+---------- ---------- ---------- ---------- ----------
+      2002 GIOVANNI   ROME              200       1003
+      2003 LIU        SAN JOSE          200       1002
+      2004 GRASS      BERLIN            300       1002
+      2006 CISNEROS   SAN JOSE          300       1007
+      2007 PEREIRA    ROME              100       1004
+
+======================================================================================================
+4) What will be the output from the following query?
+
+Select * from ORDERS
+  2  where (AMT < 1000 OR
+  3  NOT (ODATE = '03-OCT-1990'
+  4  AND CNUM > 2003));
+
+      ONUM        AMT ODATE           CNUM       SNUM
+---------- ---------- --------- ---------- ----------
+      3001      18.69 03-OCT-90       2008       1007
+      3003     767.19 03-OCT-90       2001       1001
+      3005    5160.45 03-OCT-90       2003       1002
+      3009    1713.23 04-OCT-90       2002       1003
+      3007      75.75 04-OCT-90       2004       1002
+      3008       4723 05-OCT-90       2006       1001
+      3010    1309.95 06-OCT-90       2004       1002
+      3011    9891.88 06-OCT-90       2006       1001
+	  
+========================================================================================================
+5) What will be the output of the following query?
+
+Select * from Orders
+  2  where NOT((odate = '03-OCT-1990' OR snum>1006)
+  3  AND AMT>=1500);
+
+      ONUM        AMT ODATE           CNUM       SNUM
+---------- ---------- --------- ---------- ----------
+      3001      18.69 03-OCT-90       2008       1007
+      3003     767.19 03-OCT-90       2001       1001
+      3006    1098.16 03-OCT-90       2008       1007
+      3009    1713.23 04-OCT-90       2002       1003
+      3007      75.75 04-OCT-90       2004       1002
+      3008       4723 05-OCT-90       2006       1001
+      3010    1309.95 06-OCT-90       2004       1002
+      3011    9891.88 06-OCT-90       2006       1001
+
+8 rows selected.
+
+=========================================================================================================
+6) What is a simpler way to write this query?
+
+Select snum, sname, city, comm From Salespeople
+where (comm > .12 OR comm <.14);
+
+SELECT * FROM SALESPEOPLE;
+
+      SNUM SNAME      CITY             COMM
+---------- ---------- ---------- ----------
+      1001 PEEL       LONDON            .12
+      1002 SERRES     SAN JOSE          .13
+      1004 MOTIKA     LONDON            .11
+      1007 RIFKIN     BARCELONA         .15
+      1003 AXERLROD   NEW YORK           .1
+	  
+===========================================================================================================
+
+
